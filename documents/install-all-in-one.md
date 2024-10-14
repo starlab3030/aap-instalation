@@ -979,39 +979,386 @@ gateway=#
 
 ## 5. Automation Controller
 
-```bash
+### 5.1 automation-controller 컨테이너 리스트 확인
 
+```bash
+podman ps -a --format "{{.ID}}\t{{.Status}}\t{{.Command}}\t{{.Names}}" | grep -i "automation-controller"
 ```
 
 실행 결과
 ```
+[shadowman@aap-c ~]$ podman ps -a --format "{{.ID}}\t{{.Status}}\t{{.Command}}\t{{.Names}}" | grep -i "automation-controller"
+f49a24306421	Up 3 hours	/usr/bin/launch_a...	automation-controller-rsyslog
+20d99948e200	Up 3 hours	/usr/bin/launch_a...	automation-controller-task
+b9c169225930	Up 3 hours	/usr/bin/launch_a...	automation-controller-web
 
+[shadowman@aap-c ~]$ 
 ```
+<br>
+
+### 5.2 automation-controller-web 컨테이너
+
+#### 5.2.1 컨테이너 구성 확인
+
+```bash
+podman container inspect automation-controller-web | jq '.[].Config|{"Config.Labels.usage": .Labels.usage, "Config.CreateCommand": .CreateCommand}'
+```
+
+실행 결과
+```
+[shadowman@aap-c ~]$ podman container inspect automation-controller-web | jq '.[].Config|{"Config.Labels.usage": .Labels.usage, "Config.CreateCommand": .CreateCommand}'
+
+...<snip>...
+
+[shadowman@aap-c ~]$ 
+```
+
+실행 결과 JSON 출력
+```json
+{
+  "Config.Labels.usage": null,
+  "Config.CreateCommand": [
+    "podman",
+    "container",
+    "create",
+    "--name",
+    "automation-controller-web",
+    "--log-driver",
+    "journald",
+    "--user",
+    "1001",
+    "--userns",
+    "keep-id",
+    "--network",
+    "host",
+    "--mount",
+    "type=tmpfs,destination=/run/nginx,U=true",
+    "--secret",
+    "controller_secret_key,target=/etc/tower/SECRET_KEY,mode=0400,uid=1001",
+    "--secret",
+    "controller_channels,target=/etc/tower/conf.d/channels.py,mode=0400,uid=1001",
+    "--secret",
+    "controller_postgres,target=/etc/tower/conf.d/postgres.py,mode=0400,uid=1001",
+    "--secret",
+    "controller_resource_server,target=/etc/tower/conf.d/resource_server.py,mode=0400,uid=1001",
+    "--volume",
+    "/home/shadowman/aap/tls/extracted:/etc/pki/ca-trust/extracted:z",
+    "--volume",
+    "/home/shadowman/aap/controller/etc/settings.py:/etc/tower/settings.py:ro,z",
+    "--volume",
+    "/home/shadowman/aap/controller/etc/conf.d/callback_receiver_workers.py:/etc/tower/conf.d/callback_receiver_workers.py:ro,z",
+    "--volume",
+    "/home/shadowman/aap/controller/etc/conf.d/cluster_host_id.py:/etc/tower/conf.d/cluster_host_id.py:ro,z",
+    "--volume",
+    "/home/shadowman/aap/controller/etc/conf.d/container_groups.py:/etc/tower/conf.d/container_groups.py:ro,z",
+    "--volume",
+    "/home/shadowman/aap/controller/etc/conf.d/execution_environments.py:/etc/tower/conf.d/execution_environments.py:ro,z",
+    "--volume",
+    "/home/shadowman/aap/controller/etc/conf.d/insights.py:/etc/tower/conf.d/insights.py:ro,z",
+    "--volume",
+    "/home/shadowman/aap/controller/etc/conf.d/redis.py:/etc/tower/conf.d/redis.py:ro,z",
+    "--volume",
+    "/home/shadowman/aap/controller/etc/conf.d/subscription_usage_model.py:/etc/tower/conf.d/subscription_usage_model.py:ro,z",
+    "--volume",
+    "/home/shadowman/aap/controller/data/job_execution:/home/shadowman/aap/controller/data/job_execution:z",
+    "--volume",
+    "/home/shadowman/aap/controller/data/logs:/var/log/tower:z",
+    "--volume",
+    "/home/shadowman/aap/controller/data/projects:/home/shadowman/aap/controller/data/projects:z",
+    "--volume",
+    "/home/shadowman/aap/controller/data/rsyslog:/var/lib/awx/rsyslog:z",
+    "--volume",
+    "/home/shadowman/aap/controller/etc/launch_awx_task.sh:/usr/bin/launch_awx_task.sh:ro,z",
+    "--volume",
+    "/home/shadowman/aap/receptor/etc/receptor.conf:/etc/receptor/receptor.conf:ro,z",
+    "--volume",
+    "receptor_run:/run/receptor:U",
+    "--volume",
+    "redis_run:/run/redis:z",
+    "--volume",
+    "/home/shadowman/aap/controller/rsyslog/run:/run/awx-rsyslog:z",
+    "--volume",
+    "/home/shadowman/aap/controller/supervisor/run:/run/supervisor:z",
+    "--volume",
+    "/home/shadowman/aap/controller/etc/uwsgi.ini:/etc/tower/uwsgi.ini:ro,z",
+    "--volume",
+    "/home/shadowman/aap/controller/nginx/etc/controller.conf:/etc/nginx/nginx.conf:ro,z",
+    "--volume",
+    "controller_nginx:/var/lib/nginx:U",
+    "--volume",
+    "/home/shadowman/aap/controller/etc/tower.cert:/etc/tower/tower.cert:ro,z",
+    "--volume",
+    "/home/shadowman/aap/controller/etc/tower.key:/etc/tower/tower.key:ro,z",
+    "--stop-timeout",
+    "30",
+    "--env",
+    "SUPERVISOR_CONFIG_PATH=/etc/supervisord_web.conf",
+    "--label",
+    "io.containers.autoupdate=local",
+    "registry.redhat.io/ansible-automation-platform-25/controller-rhel8:latest",
+    "/usr/bin/launch_awx_web.sh"
+  ]
+}
+```
+
+#### 5.2.2 웹 구성 확인
+
+```bash
+podman exec -it automation-controller-web /bin/bash
+cat /etc/nginx/nginx.conf
+exit
+```
+
+실행 결과
+```
+[shadowman@aap-c ~]$ podman exec -it automation-controller-web /bin/bash
+
+bash-4.4$ cat /etc/nginx/nginx.conf
+
+......
+
+http {
+    
+    ......
+
+    server {
+        listen 8443 default_server ssl http2;
+        ......
+    }
+
+    server {
+        listen 8080 default_server;
+        listen [::]:8080 default_server;
+        server_name _;
+        return 301 https://$host:8443$request_uri;
+    }
+}
+
+bash-4.4$ exit
+exit
+
+[shadowman@aap-c ~]$ 
+```
+* http는 8080 포트, https는 8443 포트 사용
 <br>
 <br>
 
 ## 6. Automation Hub
 
-```bash
+### 6.1 automation-hub 컨테이너 리스트
 
+```bash
+podman ps -a --format "{{.ID}}\t{{.Status}}\t{{.Command}}\t{{.Names}}" | grep -i "automation-hub"
 ```
 
 실행 결과
 ```
+[shadowman@aap-c ~]$ podman ps -a --format "{{.ID}}\t{{.Status}}\t{{.Command}}\t{{.Names}}" | grep -i "automation-hub"
+11e936ce5fa9	Up 3 hours	pulpcore-api --na...	automation-hub-api
+aaa45719344a	Up 3 hours	pulpcore-content ...	automation-hub-content
+ab9087c97e05	Up 3 hours	/bin/sh -c nginx ...	automation-hub-web
+aaee96b594ad	Up 3 hours	pulpcore-worker	automation-hub-worker-1
+59fb6131cbab	Up 3 hours	pulpcore-worker	automation-hub-worker-2
 
+[shadowman@aap-c ~]$ 
 ```
+<br>
+
+### 6.2 automation-hub-web 컨테이너
+
+#### 6.2.1 컨테이너 구성 확인
+
+```bash
+podman container inspect automation-hub-web | jq '.[].Config|{"Config.Labels.usage": .Labels.usage, "Config.CreateCommand": .CreateCommand}'
+```
+
+실행 결과
+```
+[shadowman@aap-c ~]$ podman container inspect automation-hub-web | jq '.[].Config|{"Config.Labels.usage": .Labels.usage, "Config.CreateCommand": .CreateCommand}'
+{
+  "Config.Labels.usage": "s2i build <SOURCE-REPOSITORY> ubi8/nginx-122:latest <APP-NAME>",
+  "Config.CreateCommand": [
+    "podman",
+    "container",
+    "create",
+    "--name",
+    "automation-hub-web",
+    "--log-driver",
+    "journald",
+    "--user",
+    "1001",
+    "--userns",
+    "keep-id",
+    "--network",
+    "host",
+    "--mount",
+    "type=tmpfs,destination=/run/nginx,U=true",
+    "--volume",
+    "/home/shadowman/aap/hub/nginx/etc/hub.conf:/etc/nginx/nginx.conf:ro,z",
+    "--volume",
+    "hub_nginx:/var/lib/nginx:U",
+    "--volume",
+    "/home/shadowman/aap/hub/etc/pulp.cert:/etc/pulp/pulp.cert:ro,z",
+    "--volume",
+    "/home/shadowman/aap/hub/etc/pulp.key:/etc/pulp/pulp.key:ro,z",
+    "--label",
+    "io.containers.autoupdate=local",
+    "registry.redhat.io/ansible-automation-platform-25/hub-web-rhel8:latest"
+  ]
+}
+
+[shadowman@aap-c ~]$ 
+```
+
+#### 6.2.2 웹 구성 확인
+
+```bash
+podman exec -it automation-hub-web /bin/bash
+cat /etc/nginx/nginx.conf
+exit
+```
+
+실행 결과
+```
+[shadowman@aap-c ~]$ podman exec -it automation-hub-web /bin/bash
+
+bash-4.4$ cat /etc/nginx/nginx.conf
+
+......
+
+http {
+    
+    ......
+
+    server {
+        listen 8444 default_server ssl http2;
+        ......
+    }
+
+    server {
+        listen 8081 default_server;
+        listen [::]:8081 default_server;
+        server_name _;
+        return 301 https://$host:8444$request_uri;
+    }
+}
+
+bash-4.4$ exit
+exit
+
+[shadowman@aap-c ~]$
+```
+* http는 8081 포트, https는 8444 포트 사용
 <br>
 <br>
 
 ## 7. Event-Driven Ansible
 
-```bash
+### 7.1 EDA 컨테이너 리스트 확인
 
+```bash
+podman ps -a --format "{{.ID}}\t{{.Status}}\t{{.Command}}\t{{.Names}}" | grep -i "automation-eda"
 ```
 
 실행 결과
 ```
+[shadowman@aap-c ~]$ podman ps -a --format "{{.ID}}\t{{.Status}}\t{{.Command}}\t{{.Names}}" | grep -i "automation-eda"
+b72ef018767e	Up 3 hours	gunicorn --bind 1...	automation-eda-api
+6717b6bc6cf3	Up 3 hours	daphne --bind 127...	automation-eda-daphne
+a2353afaaa15	Up 3 hours	/bin/sh -c nginx ...	automation-eda-web
+96b185defa35	Up 3 hours	aap-eda-manage rq...	automation-eda-worker-1
+7ec16d40a71a	Up 3 hours	aap-eda-manage rq...	automation-eda-worker-2
+9bf69c908f4a	Up 3 hours	aap-eda-manage rq...	automation-eda-activation-worker-1
+987ac408c40a	Up 3 hours	aap-eda-manage rq...	automation-eda-activation-worker-2
+7e29a31ae59b	Up 3 hours	aap-eda-manage sc...	automation-eda-scheduler
 
+[shadowman@aap-c ~]$ 
+```
+<br>
+
+### 7.2 automation-eda-web 컨테이너
+
+#### 7.2.1 컨테이너 구성 확인
+
+```bash
+ podman container inspect automation-eda-web | jq '.[].Config|{"Config.Labels.usage": .Labels.usage, "Config.CreateCommand": .CreateCommand}'
+```
+
+실행 결과
+```
+[shadowman@aap-c ~]$ podman container inspect automation-eda-web | jq '.[].Config|{"Config.Labels.usage": .Labels.usage, "Config.CreateCommand": .CreateCommand}'
+{
+  "Config.Labels.usage": "s2i build <SOURCE-REPOSITORY> ubi8/nginx-122:latest <APP-NAME>",
+  "Config.CreateCommand": [
+    "podman",
+    "container",
+    "create",
+    "--name",
+    "automation-eda-web",
+    "--log-driver",
+    "journald",
+    "--user",
+    "1001",
+    "--userns",
+    "keep-id",
+    "--network",
+    "host",
+    "--mount",
+    "type=tmpfs,destination=/run/nginx,U=true",
+    "--volume",
+    "/home/shadowman/aap/eda/nginx/etc/eda.conf:/etc/nginx/nginx.conf:ro,z",
+    "--volume",
+    "eda_nginx:/var/lib/nginx:U",
+    "--volume",
+    "/home/shadowman/aap/eda/etc/eda.cert:/etc/eda/eda.cert:ro,z",
+    "--volume",
+    "/home/shadowman/aap/eda/etc/eda.key:/etc/eda/eda.key:ro,z",
+    "--label",
+    "io.containers.autoupdate=local",
+    "registry.redhat.io/ansible-automation-platform-25/eda-controller-ui-rhel8:latest"
+  ]
+}
+
+[shadowman@aap-c ~]$ 
+```
+
+#### 7.2.2 웹 구성 확인
+
+```bash
+podman exec -it automation-eda-web /bin/bash
+cat /etc/nginx/nginx.conf
+exit
+```
+
+실행 결과
+```
+[shadowman@aap-c ~]$ podman exec -it automation-eda-web /bin/bash
+
+bash-4.4$ cat /etc/nginx/nginx.conf
+
+......
+
+http {
+    
+    ......
+
+    server {
+        listen 8445 default_server ssl http2;
+        ......
+    }
+
+    server {
+        listen 8082 default_server;
+        listen [::]:8082 default_server;
+        server_name _;
+        return 301 https://$host:8445$request_uri;
+    }
+}
+
+bash-4.4$ exit
+exit
+
+[shadowman@aap-c ~]$ 
 ```
 <br>
 <br>
