@@ -6,4 +6,8 @@
 
 <img align="left" src="/images/이승일--II_컴퓨터.png" width="280px" height="280px" title="100px" alt="안녕"></img>
 
-1. [사전 준비](documents/pre-requisite-ops.md)<br>
+1. [사전 준비](documents/pre-requisites.md)<br>
+2. [설치 준비](documents/pre-installation.md)<br>
+3. []()<br>
+4. []()<br>
+5. []()<br>
