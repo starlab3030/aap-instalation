@@ -11,6 +11,6 @@
 1. [사전 준비](documents/pre-requisites.md)<br>
 2. [설치 준비](documents/pre-installation.md)<br>
 3. AAP 설치
-   * [All-In-One 설치](documents/install-all-in-one.md)<br>
+   1. [All-In-One 설치](documents/install-all-in-one.md)<br>
 4. []()<br>
 5. []()<br>
