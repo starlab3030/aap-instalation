@@ -348,7 +348,7 @@ aaee96b594ad	pulpcore-worker	automation-hub-worker-1
 #### 3.2.1 AAP Proxy 접속
 
 |$\color{lime}{\texttt{항목}}$|$\color{lime}{\texttt{설명}}$|
-|:---|---:|
+|:---|:---|
 |`URL`|https://aap-c.thinkmore.net|
 |`사용자`|admin|
 |`암호`|사용자_암호|
