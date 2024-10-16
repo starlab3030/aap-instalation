@@ -12,5 +12,6 @@
 2. [설치 준비](documents/pre-installation.md)<br>
 3. AAP 설치
    1. [All-In-One 설치](documents/install-all-in-one.md)<br>
+   2. [외부에 DB 설치]
 4. []()<br>
 5. [설치 제거](documents/un-installation.md)<br>
