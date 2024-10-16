@@ -243,6 +243,93 @@ CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
 [shadowman@aap-db ~]$ 
 ```
 <br>
+
+### 2.4 사용자 세션 로그인 없이 서비스 실행
+
+#### 2.4.1 AAP 사용자 ID 확인
+
+```bash
+grep shadowman /etc/passwd
+```
+
+실행 결과
+```
+[shadowman@aap-db ~]$ grep shadowman /etc/passwd
+shadowman:x:1001:1001::/home/shadowman:/bin/bash
+
+[shadowman@aap-db ~]$ 
+```
+* 사용자 ID는 1001
+
+#### 2.4.2 AAP 사용자 링거 활성화
+
+```bash
+loginctl enable-linger shadowman
+```
+
+실행 결과
+```
+[shadowman@aap-db ~]$ loginctl enable-linger shadowman
+
+[shadowman@aap-db ~]$
+```
+
+#### 2.4.3 서비스 확인
+
+AAP 사용자 세션에서 로그아웃하여, 다른 사용자로 로그인해서 확인
+```bash
+systemd-cgls
+```
+
+실행 결과
+```
+[shadowman@aap-db ~]$ systemd-cgls
+Control group /:
+-.slice
+├─user.slice (#1202)
+│ → user.invocation_id: 986c569fd6a745a4a9ce1aaeba395c44
+│ ├─user-1001.slice (#3501)
+│ │ → user.invocation_id: 700b4159c44349949a49415ca533d7bd
+│ │ ├─session-3.scope (#5562)
+│ │ │ ├─2184 sshd: shadowman [priv]
+│ │ │ ├─2210 sshd: shadowman@pts/0
+│ │ │ ├─2218 -bash
+│ │ │ ├─9468 systemd-cgls
+│ │ │ └─9469 less
+│ │ └─user@1001.service … (#4203)
+│ │   → user.delegate: 1
+│ │   → user.invocation_id: 72468b8e2a2f4c72833ff90faf6c591d
+│ │   ├─user.slice (#4869)
+│ │   │ ├─libpod-db165ecc50cc1d22bc99c7d4210a8eadf6933a57bcf065783f05d57c2cb883ee.scope (#4905)
+│ │   │ │ └─container (#4941)
+│ │   │ │   ├─1176 postgres
+│ │   │ │   ├─1669 postgres: logger
+│ │   │ │   ├─1671 postgres: checkpointer
+│ │   │ │   ├─1672 postgres: background writer
+│ │   │ │   ├─1681 postgres: walwriter
+│ │   │ │   ├─1682 postgres: autovacuum launcher
+│ │   │ │   └─1683 postgres: logical replication launcher
+│ │   │ └─podman-pause-7f6794bb.scope (#4977)
+│ │   │   └─1017 catatonit -P
+│ │   ├─app.slice (#4396)
+│ │   │ ├─dbus-broker.service (#4833)
+│ │   │ │ ├─1181 /usr/bin/dbus-broker-launch --scope user
+│ │   │ │ └─1195 dbus-broker --log 4 --controller 9 --machine-id 2c053fbe208d4448b45ba9c5ac3d1ce8 --max-bytes 100000000000000 --max-fds >
+│ │   │ └─container-postgresql.service (#4504)
+│ │   │   ├─1113 /usr/bin/slirp4netns --disable-host-loopback --mtu=65520 --enable-sandbox --enable-seccomp --enable-ipv6 -c -r 3 -e 4 ->
+│ │   │   ├─1127 rootlessport
+│ │   │   ├─1148 rootlessport-child
+│ │   │   └─1167 /usr/bin/conmon --api-version 1 -c db165ecc50cc1d22bc99c7d4210a8eadf6933a57bcf065783f05d57c2cb883ee -u db165ecc50cc1d22>
+│ │   └─init.scope (#4239)
+│ │     ├─885 /usr/lib/systemd/systemd --user
+│ │     └─896 (sd-pam)
+│ └─user-42.slice (#4252)
+
+...<snip>...
+
+[shadowman@aap-db ~]$
+```
+<br>
 <br>
 
 ## 3. AAP 서비스 확인
