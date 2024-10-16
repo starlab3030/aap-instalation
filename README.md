@@ -13,5 +13,6 @@
 3. AAP 설치
    1. [All-In-One 설치](documents/install-all-in-one.md)<br>
    2. [외부에 DB 설치](documents/install-external-db.md)<br>
+   3. [Two-Nodes 설치](documents/install-two-nodes.md)<br>
 4. []()<br>
 5. [설치 제거](documents/un-installation.md)<br>
