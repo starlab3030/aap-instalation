@@ -322,4 +322,43 @@ aap-c.thinkmore.net        : ok=132  changed=60   unreachable=0    failed=0    s
 [shadowman@aap-c ansible-setup]$
 ```
 <br>
+
+### 2.2 설치 제거 확인
+
+#### 2.2.1 컨테이너 확인
+
+```bash
+podman ps -a
+podman images
+```
+
+실행 결과
+```
+[shadowman@aap-c ansible-setup]$ podman ps -a
+CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
+
+[shadowman@aap-c ansible-setup]$ podman images
+REPOSITORY  TAG         IMAGE ID    CREATED     SIZE
+
+[shadowman@aap-c ansible-setup]$ 
+```
+
+#### 2.2.2 서비스 확인
+
+```bash
+systemctl list-units --type=service --state=running --user
+systemctl list-units --user
+```
+
+실행 결과
+```
+[shadowman@aap-c ansible-setup]$ systemctl list-units --type=service --state=running --user
+Failed to connect to bus: No medium found
+
+[shadowman@aap-c ansible-setup]$ systemctl list-units --user
+Failed to connect to bus: No medium found
+
+[shadowman@aap-c ansible-setup]$ 
+```
+<br>
 <br>
