@@ -265,6 +265,7 @@ shadowman:x:1001:1001::/home/shadowman:/bin/bash
 
 ```bash
 loginctl enable-linger shadowman
+loginctl user-status | grep -i linger
 ```
 
 실행 결과
