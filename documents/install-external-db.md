@@ -2,6 +2,26 @@
 
 ## 1. PostgreSQL 데이터베이스 설치
 
+```bash
+mkdir -pv ~/nfs/aap/db/pgsql-data
+chmod 777 ~/nfs/aap/db/pgsql-data/
+ls -ld ~/nfs/aap/db/pgsql-data/
+```
+
+실행 결과
+```
+[shadowman@aap-db ~]$ mkdir -pv ~/nfs/aap/db/pgsql-data
+mkdir: created directory '/home/shadowman/nfs/aap/db/pgsql-data'
+
+[shadowman@aap-db2 ~]$ chmod 777 ~/nfs/aap/db/pgsql-data/
+
+[shadowman@aap-db2 ~]$ ls -ld ~/nfs/aap/db/pgsql-data/
+drwxrwxrwx. 2 shadowman shadowman 6 Oct 17 18:36 /home/shadowman/nfs/aap/db/pgsql-data/
+
+[shadowman@aap-db2 ~]$
+```
+<br>
+
 ### 1.1 AAP를 위한 DB 이미지 가져오기 
 
 이미지를 로컬 파일시스템에서 가져오기
@@ -49,9 +69,11 @@ ADMIN_PASSWD=redhat
 podman run -d --name postgresql \
    -e POSTGRESQL_ADMIN_PASSWORD=$ADMIN_PASSWD \
    -p 5432:5432 \
+   -v ~/nfs/aap/db/pgsql-data:/var/lib/pgsql/data \
    registry.redhat.io/rhel8/postgresql-15
-#-v $QUAY/pgsql-quay:/var/lib/pgsql/data:Z \
 ```
+* **-v** 옵션에 NFS를 사용하는 경우 *:Z*를 빼고 입력
+* **-u** 옵션으로 사용자를 지정하지 않는 경우 컨테이너 상의 사용자와 그룹은 postgres:postgres(26:26) 임 
 
 다음 명령어를 실행
 ```bash
@@ -70,6 +92,32 @@ d1df45b76621  registry.redhat.io/rhel8/postgresql-15:latest  run-postgresql  25 
 
 [shadowman@aap-db ~]$
 ```
+<br>
+
+### 1.3 PostreSQL 컨테이너 생성 에러
+
+유형: lsetxattr ... operation not supported
+```
+[shadowman@aap-db ~]$ ./create-pgsql-for-aap.sh
+Error: lsetxattr /home/shadowman/nfs/aap/db/pgsql-data: operation not supported
+
+[shadowman@aap-db ~]$
+```
+* 컨테이너 생성 시 -v 옵션으로 지정한 파일시스템인 NFS
+* NFS가 v4 이전이면 SELinux를 지원하지 않아 발생
+* -v 옵션 끝은 SELinux 설정을 지정하는 *:Z*를 지움
+
+유형: mkdir ... Permission denied
+```
+[shadowman@aap-db ~]$ ./create-pgsql-for-aap.sh
+mkdir: cannot create directory '/var/lib/pgsql/data/userdata': Permission denied
+
+[shadowman@aap-db ~]$
+```
+* 컨테이너 생성 시 -v 옵션으로 지정한 파일시스템 소유자와 컨테이너 상의 소유자가 다른 경우
+* PostgreSQL 컨테이너의 예에서는 내부 사용자가 postgres:postgres (26:26) 임
+* 해당 디렉터리에 쓰기 권한이 없는 경우 발생
+* setfacl 옵션으로 설정할 수 있음 (단, NFS의 경우 지원하지 않을 수 있음)
 <br>
 <br>
 
@@ -390,7 +438,43 @@ public (active)
 
 ### 3.2 PostgreSQL 연결 테스트
 
-#### 3.2.1 로컬 호스트에서 테스트
+#### 3.2.1 컨테이너 내부에서 테스트
+
+```bash
+podman exec -it postgresql /bin/bash --
+psql
+\q
+exit
+```
+
+실행 결과
+```
+[shadowman@aap-db ~]$ podman exec -it postgresql /bin/bash --
+
+bash-4.4$ psql
+psql (15.8)
+Type "help" for help.
+
+postgres=# \l
+                                                List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    | ICU Locale | Locale Provider |   Access privileges
+-----------+----------+----------+------------+------------+------------+-----------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            |
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =c/postgres          +
+           |          |          |            |            |            |                 | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =c/postgres          +
+           |          |          |            |            |            |                 | postgres=CTc/postgres
+(3 rows)
+
+postgres=# \q
+
+bash-4.4$ exit
+exit
+
+[shadowman@aap-db ~]$
+```
+
+#### 3.2.2 로컬 호스트에서 테스트
 
 ```bash
 podman port postgresql
@@ -415,7 +499,7 @@ postgres=# \q
 [shadowman@aap-db ~]$
 ```
 
-#### 3.2.2 원격 호스트에서 테스트
+#### 3.2.3 원격 호스트에서 테스트
 
 실행 결과
 ```
