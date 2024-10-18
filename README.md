@@ -2,7 +2,7 @@
 
 
 
-<img align="left" src="/images/이승일--II_컴퓨터.png" width="350px" height="350px" title="100px" alt="안녕"></img><br>
+<img align="left" src="/images/이승일--II_컴퓨터.png" width="400px" height="4000px" title="100px" alt="안녕"></img><br>
 
 다음과 같은 AAP 설치 방안에 대하여 설명합니다.<br>
 &nbsp;&nbsp;* 컨테이너 기반 기본 설치<br>
