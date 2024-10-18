@@ -804,6 +804,16 @@ postgres=# \q
 <br>
 <br>
 
+## 4. 웹 연결 구성
+
+### 4.1 앤서블 게이트웨이 연결 
+
+|$\color{lime}{\texttt{항목}}$|$\color{lime}{\texttt{값}}$|
+|:---|:---|
+|`URL`|aap-c1.thinkmore.net<br>aap-c2.thinkmore.net|
+|`사용자`|admin|
+|`암호`|redhat|
+
 ```bash
 
 ```
