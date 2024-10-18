@@ -1438,17 +1438,6 @@ tree -F -L 2 ~/aap
 
 실행 결과
 ```
-
-```
-
-#### 5.2.4 AAP 서비스
-
-```bash
-systemctl list-units --type=service --state=running --user
-```
-
-실행 결과
-```
 [shadowman@aap-gw2 ~]$ ls -ldh ~/aap
 drwxr-x---. 6 shadowman shadowman 65 Oct 18 13:10 /home/shadowman/aap
 
@@ -1473,6 +1462,29 @@ drwxr-x---. 6 shadowman shadowman 65 Oct 18 13:10 /home/shadowman/aap
     └── extracted/
 
 9 directories, 8 files
+
+[shadowman@aap-gw2 ~]$
+```
+
+#### 5.2.4 AAP 서비스
+
+```bash
+systemctl list-units --type=service --state=running --user
+```
+
+실행 결과
+```
+[shadowman@aap-gw2 ~]$ systemctl list-units --type=service --state=running --user
+  UNIT                             LOAD   ACTIVE SUB     DESCRIPTION
+  automation-gateway-proxy.service loaded active running Podman automation-gateway-proxy.service
+  automation-gateway.service       loaded active running Podman automation-gateway.service
+  dbus-broker.service              loaded active running D-Bus User Message Bus
+  redis-tcp.service                loaded active running Podman redis-tcp.service
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+4 loaded units listed.
 
 [shadowman@aap-gw2 ~]$
 ```
