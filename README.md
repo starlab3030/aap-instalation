@@ -15,5 +15,4 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b. [외부에 DB 설치](documents/install-external-db.md)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c. [외부에 DB 이중화 구성](https://github.com/starlab3030/pacemaker/blob/main/documents/create_podman_as_service.md)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d. [Two-Nodes 설치](documents/install-two-nodes.md)<br>
-&nbsp;&nbsp;4. []()<br>
-&nbsp;&nbsp;5. [설치 제거](documents/un-installation.md)<br>
+&nbsp;&nbsp;4. [설치 제거](documents/un-installation.md)<br>
