@@ -73,7 +73,7 @@ bundle_dir=/home/shadowman/temp/ansible-setup/bundle
 #
 gateway_admin_password=redhat
 gateway_pg_host=aap-db.thinkmore.net
-gateway_pg_password=<set your own>
+gateway_pg_password=redhat
 
 # For Automation Controller
 #
