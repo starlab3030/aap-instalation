@@ -12,6 +12,7 @@
 &nbsp;&nbsp;2. [설치 준비](documents/pre-installation.md)<br>
 &nbsp;&nbsp;3. AAP 설치<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a. [All-In-One 설치](documents/install-all-in-one.md)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a. [컴포넌트 선택 설치](documents/install-component.md)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b. [외부에 DB 설치](documents/install-external-db.md)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c. [외부에 DB 이중화 구성](https://github.com/starlab3030/pacemaker/blob/main/documents/create_podman_as_service.md)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d. [Two-Nodes 설치](documents/install-two-nodes.md)<br>
