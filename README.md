@@ -17,4 +17,6 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d. [외부에 DB 이중화 구성](https://github.com/starlab3030/pacemaker/blob/main/documents/create_podman_as_service.md)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e. [Two-Nodes 설치](documents/install-two-nodes.md)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f. [Full-HA 설치](documents/install-full-ha.md)<br>
-&nbsp;&nbsp;4. [설치 제거](documents/un-installation.md)<br>
+&nbsp;&nbsp;4. 실행 환경<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a. [레거시 시스템 연결](documents/connect-legacy.md)<br>
+&nbsp;&nbsp;5. [설치 제거](documents/un-installation.md)<br>
