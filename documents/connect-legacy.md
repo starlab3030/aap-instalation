@@ -913,6 +913,9 @@ rhel92                     : ok=1    changed=1    unreachable=0    failed=0    s
 
 ### 3.6 ansible.builtin.raw 모듈 사용
 
+> [!IMPORTANT]
+> ansible.builtin.raw 모듈은 타겟 시스템에 파이썬이 없어, 파이썬을 설치하거나 혹은 파이썬을 사용하지 못하는 경우에만 사용하는 것이 좋습니다. 앤서블 *raw* 모듈은 단순 형태로 관리 대상 노드에서 주어진 인수 기반의 명령어를 실행할 뿐으로, 실행 결과 확인 및 적합성 등등은 제공되지 않습니다.
+
 #### 3.6.1 CLI ad-hoc 사용 시
 
 ```bash
