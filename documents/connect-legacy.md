@@ -966,7 +966,6 @@ Shared connection to rhel92 closed.
 
     - name: Run raw module on any host
       ansible.builtin.raw: ping -c 1 {{ TGT_HOST }}
-      register: resul
 ...
 ```
 
