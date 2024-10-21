@@ -1121,19 +1121,62 @@ rhel92                     : ok=1    changed=1    unreachable=0    failed=0    s
 
 [root@rhel92 ~]#
 ```
+
+#### 3.6.4 ansible-navigator로 raw 모듈로 테스트
+
+```bash
+ansible-navigator run -m stdout run-raw-on-host.yaml -e HOST_NAME=all -e RUN_CMD='"ping -c1 192.168.0.1"' --eei registry.redhat.io/ansible-automation-platform-21/ee-supported-rhel8:1.0
+ansible-navigator run -m stdout run-raw-on-host.yaml -e HOST_NAME=all -e RUN_CMD='"ping -c1 192.168.0.1"' --eei registry.redhat.io/ansible-automation-platform-21/ee-supported-rhel8:1.0 -vvv
+```
+
+실행 결과
+```
+[root@rhel92 ~]# ansible-navigator run -m stdout run-raw-on-host.yaml -e HOST_NAME=all -e RUN_CMD='"ping -c1 192.168.0.1"' --eei registry.redhat.io/ansible-automation-platform-21/ee-supported-rhel8:1.0
+
+PLAY [Validate inventory hosts] ************************************************
+
+TASK [Run raw module on any host] **********************************************
+changed: [rhel55]
+changed: [rhel64]
+changed: [rhel92]
+
+PLAY RECAP *********************************************************************
+rhel55                     : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+rhel64                     : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+rhel92                     : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+[root@rhel92 ~]# ansible-navigator run -m stdout run-raw-on-host.yaml -e HOST_NAME=all -e RUN_CMD='"ping -c1 192.168.0.1"' --eei registry.redhat.io/ansible-automation-platform-21/ee-supported-rhel8:1.0 -vvv
+
+...<snip>...
+
+TASK [Run raw module on any host] **********************************************
+task path: /root/run-raw-on-host.yaml:8
+<rhel92> ESTABLISH SSH CONNECTION FOR USER: None
+<rhel92> SSH: EXEC sshpass -d10 ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o ConnectTimeout=10 -o 'ControlPath="/home/runner/.ansible/cp/566b8abf85"' -tt rhel92 'ping -c1 192.168.0.1'
+<rhel64> ESTABLISH SSH CONNECTION FOR USER: None
+<rhel64> SSH: EXEC sshpass -d12 ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o ConnectTimeout=10 -o HostKeyAlgorithms=ssh-rsa -o KexAlgorithms=diffie-hellman-group1-sha1 -o PubkeyAcceptedKeyTypes=ssh-rsa -o 'ControlPath="/home/runner/.ansible/cp/5b9323ce8f"' -tt rhel64 'ping -c1 192.168.0.1'
+<rhel55> ESTABLISH SSH CONNECTION FOR USER: None
+<rhel55> SSH: EXEC sshpass -d14 ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o ConnectTimeout=10 -o HostKeyAlgorithms=ssh-rsa -o KexAlgorithms=diffie-hellman-group1-sha1 -o PubkeyAcceptedKeyTypes=ssh-rsa -o 'ControlPath="/home/runner/.ansible/cp/1c353a7831"' -tt rhel55 'ping -c1 192.168.0.1'
+
+...<snip>...
+
+PLAY RECAP *********************************************************************
+rhel55                     : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+rhel64                     : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+rhel92                     : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+[root@rhel92 ~]#
+```
+<br>
 <br>
 
-### 3.7
+#############################################
+\# 이하는 작업 중
+#############################################
 
-<br>
+### 3.X (Under-Construction)
 
-### 3.8
-
-<br>
-
-### 3.9 (Under-Construction)
-
-#### 3.9.1 RHEL6 이미지 확인
+#### 3.X.1 RHEL6 이미지 확인
 
 ```bash
 podman search --format "{{.Name}}" registry.redhat.io/rhel6 | sort -u
@@ -1155,7 +1198,7 @@ registry.redhat.io/rhel6/rhel
 [root@rhel92 ~]#
 ```
 
-#### 3.9.2 이미지 태그 확인
+#### 3.X.2 이미지 태그 확인
 
 ```bash
 podman search --format json --list-tags registry.redhat.io/rhel6 | jq -r '.[].Tags[]'
@@ -1193,7 +1236,7 @@ podman search --format json --list-tags registry.redhat.io/rhel6 | jq -r '.[].Ta
 [root@rhel92 ~]#
 ```
 
-#### 3.9.3 RHEL6 이미지 다운로드
+#### 3.X.3 RHEL6 이미지 다운로드
 
 ```bash
 podman pull registry.redhat.io/rhel6/rhel:6.10-548
