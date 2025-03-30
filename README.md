@@ -6,6 +6,7 @@
 
 <img align="left" src="/images/이승일--II_컴퓨터.png" height="350px" title="100px" alt="안녕"></img><br>
 
+<br>
 &nbsp;1. [사전 준비](documents/pre-requisites.md)<br>
 &nbsp;2. [설치 준비](documents/pre-installation.md)<br>
 &nbsp;3. AAP 설치<br>
