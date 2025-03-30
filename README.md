@@ -4,7 +4,7 @@
 * 컨테이너 기반 기본 설치<br>
 * 컨테이너 기반 고가용성 설치<br>
 
-<img align="left" src="/images/이승일--II_컴퓨터.png" width="400px" height="400px" title="100px" alt="안녕"></img><br>
+<img align="left" src="/images/이승일--II_컴퓨터.png" height="350px" title="100px" alt="안녕"></img><br>
 
 &nbsp;1. [사전 준비](documents/pre-requisites.md)<br>
 &nbsp;2. [설치 준비](documents/pre-installation.md)<br>
