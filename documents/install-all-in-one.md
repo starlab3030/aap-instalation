@@ -250,6 +250,8 @@ envoy_disable_https: true
 
 ### 2.2 컨테이너 형 앤서블 설치
 
+#### 2.2.1 기본 설치
+
 ```bash
 ansible-playbook -i inventory ansible.containerized_installer.install
 ```
@@ -266,6 +268,21 @@ localhost                  : ok=30   changed=0    unreachable=0    failed=0    s
 
 [shadowman@aap-c ansible-setup]$ 
 ```
+
+#### 2.2.2 환경 변수 설정 및 설치 - 포트 변경
+
+AAP 기본 포트 변경 설치
+```bash 
+ansible-playbook -i inventory ansible.containerized_installer.install -e envoy_http_port=8081
+```
+
+#### 2.2.2 환경 변수 설정 및 설치 - 암호 변경
+
+AAP 기본 포트 변경 설치
+```bash 
+ansible-playbook -i inventory ansible.containerized_installer.install -e gateway_admin_password='redhat123'
+```
+
 <br>
 <br>
 
@@ -445,6 +462,47 @@ ced1a391b0fd    /bin/sh -c nginx ...    automation-hub-web
     "Names": "automation-hub-worker-2"
   }
 ]
+```
+
+#### 3.1.3 컨테이너 로그 확인
+
+실행 명령어
+```bash
+journalctl CONTAINER_NAME=automation-gateway-proxy
+```
+
+실행 결과
+```
+[shadowman@aap-c ~]$ journalctl CONTAINER_NAME=automation-gateway-proxy
+11월 10 14:49:48 aap-c.thinkmore.net automation-gateway-proxy[2146]: [2025-11-10 05:49:48.392][2][info][main] >
+11월 10 14:49:48 aap-c.thinkmore.net automation-gateway-proxy[2146]: [2025-11-10 05:49:48.404][2][info][main] >
+
+...<snip>...
+
+Ctrl+C
+
+[shadowman@aap-c ~]$
+```
+
+#### 3.1.4 포드맨 로그 확인
+
+실행 명령어
+```bash
+podman logs -f automation-gateway-proxy
+```
+
+실행 결과
+```
+[aap@aap-c ~]$ podman logs -f automation-gateway-proxy
+...<snip>...
+2025-11-10T07:52:35.827Z] "GET /api/galaxy/v3/plugin/ansible/search/collection-versions/?page_size=100&repository_label=pipeline%3Dstaging HTTP/1.1" 200 - 0 187 98 45 "129.41.56.20" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:144.0) Gecko/20100101 Firefox/144.0" "8acff638-7b72-45e6-9d8b-15212ce55c9e" "14.39.182.236:8980" "192.168.0.43:8444"
+[2025-11-10 07:52:38.189][2][info][upstream] [external/envoy/source/common/upstream/cds_api_helper.cc:32] cds: add 5 cluster(s), remove 2 cluster(s)
+[2025-11-10 07:52:38.189][2][info][upstream] [external/envoy/source/common/upstream/cds_api_helper.cc:71] cds: added/updated 0 cluster(s), skipped 5 unmodified cluster(s)
+[2025-11-10 07:52:43.257][2][info][upstream] [external/envoy/source/common/upstream/cds_api_helper.cc:32] cds: add 5 cluster(s), remove 2 cluster(s)
+[2025-11-10 07:52:43.257][2][info][upstream] [external/envoy/source/common/upstream/cds_api_helper.cc:71] cds: added/updated 0 cluster(s), skipped 5 unmodified cluster(s)
+...<snip>...
+
+[aap@aap-c ~]$
 ```
 <br>
 
