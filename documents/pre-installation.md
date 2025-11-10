@@ -178,20 +178,20 @@ access.redhat.com에서 패키지 선택 후 다운로드
   [shadowman@aap-c ~]$ mkdir -pv ~/temp
   mkdir: created directory '/home/shadowman/temp'
   
-  [shadowman@aap-c ~]$ wget 'https://access.cdn.redhat.com/...<snip>...' -O ansible-automation-platform-containerized-setup-2.5-2.tar.gz
+  [shadowman@aap-c ~]$ wget 'https://access.cdn.redhat.com/...<snip>...' -O ansible-automation-platform-containerized-setup-2.6-2.tar.gz
   --2024-10-14 11:16:25--  https://access.cdn.redhat.com/...<snip>...
   Resolving access.cdn.redhat.com (access.cdn.redhat.com)... 184.26.91.232, 184.26.91.185, 2600:140e:6::b833:663b, ...
   Connecting to access.cdn.redhat.com (access.cdn.redhat.com)|184.26.91.232|:443... connected.
   HTTP request sent, awaiting response... 200 OK
   Length: 3544100 (3.4M) [application/octet-stream]
-  Saving to: ‘/home/shadowman/temp/ansible-automation-platform-containerized-setup-bundle-2.5-2.tar.gz’
+  Saving to: ‘/home/shadowman/temp/ansible-automation-platform-containerized-setup-bundle-2.6-2.tar.gz’
   
   ansible-automation-platform-cont 100%[=========================================================>]   3.38M  6.51MB/s    in 0.5s    
   
-  2024-10-14 11:16:26 (6.51 MB/s) - ‘/home/shadowman/temp/ansible-automation-platform-containerized-setup-bundle-2.5-2.tar.gz’ saved [3544100/3544100]
+  2024-10-14 11:16:26 (6.51 MB/s) - ‘/home/shadowman/temp/ansible-automation-platform-containerized-setup-bundle-2.6-2.tar.gz’ saved [3544100/3544100]
   
-  [shadowman@aap-c ~]$ ls -lh ~/temp/ansible-automation-platform-containerized-setup-bundle-2.5-2.tar.gz 
-  -rw-r--r--. 1 shadowman shadowman 2.4G Oct  8 23:00 /home/shadowman/temp/ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64.tar.gz
+  [shadowman@aap-c ~]$ ls -lh ~/temp/ansible-automation-platform-containerized-setup-bundle-2.6-2.tar.gz 
+  -rw-r--r--. 1 shadowman shadowman 2.4G Oct  8 23:00 /home/shadowman/temp/ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64.tar.gz
   
   [shadowman@aap-c ~]$  
   ```
@@ -203,40 +203,40 @@ access.redhat.com에서 패키지 선택 후 다운로드
 ### 4.1 패키지 압축 해제
 ```bash
 cd ~/temp
-tar xvzf ansible-automation-platform-containerized-setup-bundle-2.5-2.tar.gz 
+tar xvzf ansible-automation-platform-containerized-setup-bundle-2.6-2.tar.gz 
 ```
 
 실행 환경
 ```
 [shadowman@aap-c ~]$ cd ~/temp
 
-[shadowman@aap-c temp]$ tar xvzf ansible-automation-platform-containerized-setup-bundle-2.5-2.tar.gz 
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/collections/
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/collections/ansible_collections/
+[shadowman@aap-c temp]$ tar xvzf ansible-automation-platform-containerized-setup-bundle-2.6-2.tar.gz 
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/collections/
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/collections/ansible_collections/
 
 ...<snip>...
 
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/README.md
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/ansible.cfg
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/inventory
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/inventory-growth
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/controller-rhel8.tar.gz
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/de-supported-rhel8.tar.gz
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/eda-controller-rhel8.tar.gz
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/eda-controller-ui-rhel8.tar.gz
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/ee-minimal-rhel8.tar.gz
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/ee-supported-rhel8.tar.gz
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/gateway-rhel8.tar.gz
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/gateway-proxy-rhel8.tar.gz
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/hub-rhel8.tar.gz
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/hub-web-rhel8.tar.gz
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/receptor-rhel8.tar.gz
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/postgresql-15.tar.gz
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/redis-6.tar.gz
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/images/pcp.tar.gz
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/README.md
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/ansible.cfg
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/inventory
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/inventory-growth
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/controller-rhel8.tar.gz
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/de-supported-rhel8.tar.gz
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/eda-controller-rhel8.tar.gz
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/eda-controller-ui-rhel8.tar.gz
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/ee-minimal-rhel8.tar.gz
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/ee-supported-rhel8.tar.gz
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/gateway-rhel8.tar.gz
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/gateway-proxy-rhel8.tar.gz
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/hub-rhel8.tar.gz
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/hub-web-rhel8.tar.gz
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/receptor-rhel8.tar.gz
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/postgresql-15.tar.gz
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/redis-6.tar.gz
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/bundle/images/pcp.tar.gz
 
 [shadowman@aap-c temp]$ 
 ```
@@ -245,47 +245,54 @@ ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64/bundle/image
 ### 4.2 패키지 구조 확인
 
 ```bash
-tree -F -L 3 ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64
+tree -F -L 3 ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64
 ```
 
 실행 결과
 ```
-[shadowman@aap-c temp]$ tree -F -L 3 ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64
-ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64
-├── README.md
-├── ansible.cfg
-├── bundle/
-│   └── images/
-│       ├── controller-rhel8.tar.gz
-│       ├── de-supported-rhel8.tar.gz
-│       ├── eda-controller-rhel8.tar.gz
-│       ├── eda-controller-ui-rhel8.tar.gz
-│       ├── ee-minimal-rhel8.tar.gz
-│       ├── ee-supported-rhel8.tar.gz
-│       ├── gateway-proxy-rhel8.tar.gz
-│       ├── gateway-rhel8.tar.gz
-│       ├── hub-rhel8.tar.gz
-│       ├── hub-web-rhel8.tar.gz
-│       ├── pcp.tar.gz
-│       ├── postgresql-15.tar.gz
-│       ├── receptor-rhel8.tar.gz
-│       └── redis-6.tar.gz
-├── collections/
-│   └── ansible_collections/
-│       ├── ansible/
-│       ├── ansible.posix-1.5.4.info/
-│       ├── community/
-│       ├── community.crypto-2.22.0.info/
-│       ├── community.postgresql-3.4.0.info/
-│       ├── containers/
-│       ├── containers.podman-1.15.4.info/
-│       ├── infra/
-│       ├── infra.ah_configuration-2.0.6.info/
-│       └── infra.controller_configuration-2.9.0.info/
-├── inventory
-└── inventory-growth
+[shadowman@aap-c temp]$ tree -F -L 3 ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64
+ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64
+[  116]  ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64/
+├── [  53K]  README.md
+├── [  146]  ansible.cfg
+├── [   39]  bundle/
+│   ├── [   40]  collections/
+│   │   ├── [ 4.0K]  certified/
+│   │   └── [ 4.0K]  validated/
+│   └── [ 4.0K]  images/
+│       ├── [ 271M]  controller-rhel9.tar.gz
+│       ├── [ 192M]  de-supported-rhel9.tar.gz
+│       ├── [ 137M]  eda-controller-rhel9.tar.gz
+│       ├── [  98M]  eda-controller-ui-rhel9.tar.gz
+│       ├── [ 116M]  ee-minimal-rhel9.tar.gz
+│       ├── [ 512M]  ee-supported-rhel9.tar.gz
+│       ├── [  62M]  gateway-proxy-rhel9.tar.gz
+│       ├── [ 146M]  gateway-rhel9.tar.gz
+│       ├── [ 162M]  hub-rhel9.tar.gz
+│       ├── [  98M]  hub-web-rhel9.tar.gz
+│       ├── [ 1.4G]  lightspeed-chatbot-rhel9.tar.gz
+│       ├── [ 246M]  lightspeed-rhel9.tar.gz
+│       ├── [  71M]  mcp-tools-rhel9.tar.gz
+│       ├── [  81M]  pcp.tar.gz
+│       ├── [ 129M]  postgresql-15.tar.gz
+│       ├── [ 102M]  receptor-rhel9.tar.gz
+│       └── [  94M]  redis-6.tar.gz
+├── [   33]  collections/
+│   └── [ 4.0K]  ansible_collections/
+│       ├── [   84]  ansible/
+│       ├── [   24]  ansible.posix-1.5.4.info/
+│       ├── [   38]  community/
+│       ├── [   24]  community.crypto-2.26.5.info/
+│       ├── [   24]  community.postgresql-3.4.0.info/
+│       ├── [   20]  containers/
+│       ├── [   24]  containers.podman-1.17.0.info/
+│       ├── [   62]  infra/
+│       ├── [   24]  infra.ah_configuration-2.0.6.info/
+│       └── [   24]  infra.controller_configuration-2.9.0.info/
+├── [ 4.2K]  inventory
+└── [ 4.1K]  inventory-growth
 
-14 directories, 18 files
+18 directories, 21 files
 
 [shadowman@aap-c temp]$ 
 ```
@@ -297,7 +304,7 @@ ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64
 ### 5.1 ansible.cfg 확인
 
 ```bash
-ln -s ./ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64 ./ansible-setup
+ln -s ./ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64 ./ansible-setup
 ls -lh
 cd ansible-setup/
 cat ansible.cfg 
@@ -305,18 +312,19 @@ cat ansible.cfg
 
 실행 환경
 ```
-[shadowman@aap-c temp]$ ln -s ./ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64 ./ansible-setup
+[shadowman@aap-c temp]$ ln -s ./ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64 ./ansible-setup
 
 [shadowman@aap-c temp]$ ls -lh
 total 2.4G
-drwxr-xr-x. 4 shadowman shadowman  116 Oct  8 03:56 ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64
--rw-r--r--. 1 shadowman shadowman 2.4G Oct  8 23:00 ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64.tar.gz
-lrwxrwxrwx. 1 shadowman shadowman   69 Oct 14 11:45 ansible-setup -> ./ansible-automation-platform-containerized-setup-bundle-2.5-2-x86_64
+drwxr-xr-x. 4 shadowman shadowman  116 Oct  8 03:56 ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64
+-rw-r--r--. 1 shadowman shadowman 2.4G Oct  8 23:00 ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64.tar.gz
+lrwxrwxrwx. 1 shadowman shadowman   69 Oct 14 11:45 ansible-setup -> ./ansible-automation-platform-containerized-setup-bundle-2.6-2-x86_64
 
 [shadowman@aap-c temp]$ cd ansible-setup/
 
 [shadowman@aap-c ansible-setup]$ cat ansible.cfg 
 [defaults]
+collections_on_ansible_version_mismatch = ignore
 collections_path = ./collections
 inventory = ./inventory
 log_path = ./aap_install.log
@@ -328,61 +336,18 @@ log_path = ./aap_install.log
 ### 5.2 기본 인벤토리 파일
 
 ```bash
-egrep -v "^#|^$" inventory
+ls -lh inventory*
 ```
 
 실행 환경
 ```
-[shadowman@aap-c ansible-setup]$ egrep -v "^#|^$" inventory
-[automationgateway]
-gateway1.example.org
-gateway2.example.org
-[automationcontroller]
-controller1.example.org
-controller2.example.org
-[execution_nodes]
-hop1.example.org receptor_type='hop'
-exec1.example.org
-exec2.example.org
-[automationhub]
-hub1.example.org
-hub2.example.org
-[automationeda]
-eda1.example.org
-eda2.example.org
-[redis]
-gateway1.example.org
-gateway2.example.org
-hub1.example.org
-hub2.example.org
-eda1.example.org
-eda2.example.org
-[all:vars]
-bundle_install=true
-bundle_dir=./bundle
-gateway_admin_password=<set your own>
-gateway_pg_host=externaldb.example.org
-gateway_pg_database=<set your own>
-gateway_pg_username=<set your own>
-gateway_pg_password=<set your own>
-controller_admin_password=<set your own>
-controller_pg_host=externaldb.example.org
-controller_pg_database=<set your own>
-controller_pg_username=<set your own>
-controller_pg_password=<set your own>
-hub_admin_password=<set your own>
-hub_pg_host=externaldb.example.org
-hub_pg_database=<set your own>
-hub_pg_username=<set your own>
-hub_pg_password=<set your own>
-eda_admin_password=<set your own>
-eda_pg_host=externaldb.example.org
-eda_pg_database=<set your own>
-eda_pg_username=<set your own>
-eda_pg_password=<set your own>
+[shadowman@aap-c ansible-setup]$ ls -lh inventory*
+-rw-r--r--. 1 root root 4.3K 10월 29일  20:22 inventory
+-rw-r--r--. 1 root root 4.2K 10월 29일  20:22 inventory-growth
 
 [shadowman@aap-c ansible-setup]$ 
 ```
+* *inventory-growth* 파일은 stand-alone으로 구성 후, 스케일-아웃으로 확장할 때 사용
 <br>
 <br>
 

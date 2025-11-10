@@ -9,8 +9,8 @@ Ansible Automation Platform(이하 AAP) 설치를 위해 다음과 같은 최소
 |:---|:---|
 |`메모리`|16GiB|
 |`CPU`|4-core|
-|`디스크 공간`|40GiB|
-|`디스크 IOPS`|1500|
+|`디스크 공간`|60GiB|
+|`디스크 IOPS`|3000|
 <br>
 
 ### 1.2 운영체제 요구 사항
@@ -158,13 +158,33 @@ tmpfs                  366M   36K  366M   1% /run/user/0
 
 ## 3. 채널 설정 및 패키지 설치
 
-### 3.1 시스템 릴리즈 설정
+### 3.1 서브스크립션 등록
+
+#### 3.1.1 시스템 등록
+
+```bash 
+sudo subscription-manager register --username <$INSERT_USERNAME_HERE> --password <$INSERT_PASSWORD_HERE>
+```
+
+#### 3.1.2 
+
+```bash 
+sudo subscription-manager refresh
+```
+
+#### 3.1.3 
+
+```bash 
+sudo subscription-manager identity
+```
+
+### 3.2 시스템 릴리즈 설정
 
 시스템의 릴리즈를 맞게 설정합니다.
 ```bash
 subscription-manager release --show
 subscription-manager release --list
-subscription-manager release --set 9.4
+subscription-manager release --set 9.6
 subscription-manager release --show   
 ```
 
@@ -184,17 +204,17 @@ Release not set
 9.3
 9.4
 
-[root@aap-c ~]# subscription-manager release --set 9.4
-Release set to: 9.4
+[root@aap-c ~]# subscription-manager release --set 9.6
+Release set to: 9.6
 
 [root@aap-c ~]# subscription-manager release --show   
-Release: 9.4
+Release: 9.6
 
 [root@aap-c ~]#
 ```
 <br>
 
-### 3.2 REPO 확인
+### 3.3 REPO 확인
 
 ```bash
 dnf repolist
@@ -212,7 +232,7 @@ rhel-9-for-x86_64-baseos-rpms                         Red Hat Enterprise Linux 9
 ```
 <br>
 
-### 3.3 패키지 설치
+### 3.4 패키지 설치
 
 ```bash
 dnf install -y ansible-core git postgresql.x86_64 python3-pip rsync tcpdump wget
@@ -220,7 +240,7 @@ dnf install -y ansible-core git postgresql.x86_64 python3-pip rsync tcpdump wget
 
 실행 결과
 ```
-[root@aap-c ~]# dnf install -y ansible-core git postgresql.x86_64 python3-pip rsync tcpdump wget
+[root@aap-c ~]# dnf install -y ansible-core git postgresql.x86_64 python3-pip rsync tcpdump tmux wget
 ...<snip>...
 
 [root@aap-c ~]# pip install yq
@@ -230,7 +250,7 @@ dnf install -y ansible-core git postgresql.x86_64 python3-pip rsync tcpdump wget
 ```
 <br>
 
-### 3.4 시스템 업데이트
+### 3.5 시스템 업데이트
 
 ```bash
 dnf update
