@@ -718,6 +718,8 @@ tree -F -L 3 ~/aap/receptor/
 
 ### 3.4 AAP 서비스
 
+#### 3.4.1 systemd 구성 파일 확인
+
 ```bash
 tree -F .config/systemd/
 ```
@@ -781,6 +783,52 @@ tree -F .config/systemd/
 
 [shadowman@aap-c ~]$ 
 ```
+
+#### 3.4.2 사용자 기반 서비스 확인
+
+실행 명려어
+```bash
+systemctl list-units --type=service --state=running --user
+```
+
+실행 결과
+```
+[shadowman@aap-c ~]$ systemctl list-units --type=service --state=running --user
+  UNIT                                       LOAD   ACTIVE SUB     DESCRIPTION                                >
+  automation-controller-rsyslog.service      loaded active running Podman automation-controller-rsyslog.service
+  automation-controller-task.service         loaded active running Podman automation-controller-task.service
+  automation-controller-web.service          loaded active running Podman automation-controller-web.service
+  automation-eda-activation-worker-1.service loaded active running Podman automation-eda-activation-worker-1.s>
+  automation-eda-activation-worker-2.service loaded active running Podman automation-eda-activation-worker-2.s>
+  automation-eda-api.service                 loaded active running Podman automation-eda-api.service
+  automation-eda-daphne.service              loaded active running Podman automation-eda-daphne.service
+  automation-eda-scheduler.service           loaded active running Podman automation-eda-scheduler.service
+  automation-eda-web.service                 loaded active running Podman automation-eda-web.service
+  automation-eda-worker-1.service            loaded active running Podman automation-eda-worker-1.service
+  automation-eda-worker-2.service            loaded active running Podman automation-eda-worker-2.service
+  automation-gateway-proxy.service           loaded active running Podman automation-gateway-proxy.service
+  automation-gateway.service                 loaded active running Podman automation-gateway.service
+  automation-hub-api.service                 loaded active running Podman automation-hub-api.service
+  automation-hub-content.service             loaded active running Podman automation-hub-content.service
+  automation-hub-web.service                 loaded active running Podman automation-hub-web.service
+  automation-hub-worker-1.service            loaded active running Podman automation-hub-worker-1.service
+  automation-hub-worker-2.service            loaded active running Podman automation-hub-worker-2.service
+  dbus-broker.service                        loaded active running D-Bus User Message Bus
+  postgresql.service                         loaded active running Podman postgresql.service
+  receptor.service                           loaded active running Podman receptor.service
+  redis-tcp.service                          loaded active running Podman redis-tcp.service
+  redis-unix.service                         loaded active running Podman redis-unix.service
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+23 loaded units listed.
+
+[shadowman@aap-c ~]$ 
+```
+* 사용자 *root*로 로그인해서, *su - shadowman* 사용자로 변경 후, 실행하면 리스트가 정상적으로 보이지 않음
+* 사용자 *shadowman*으로 직접 로그인해서, 명령어 실행해야 함
+
 <br>
 
 ### 3.5 호스트 상의 컨테이너 사용 리소스
@@ -1534,6 +1582,112 @@ exit
 
 [shadowman@aap-c ~]$ 
 ```
+<br>
+<br>
+
+## 8. 포드맨 시크릿 확인
+
+### 8.1 시크릿 파일 및 콘텐츠
+
+#### 8.1.1 시크릿 파일 
+
+실행 명령어
+```bash
+ls -lh ~/.local/share/containers/storage/secrets/filedriver/
+```
+
+실행 결과
+```
+[aap@aap-c ~]$ ls -lh ~/.local/share/containers/storage/secrets/filedriver/
+합계 8.0K
+-rw-------. 1 aap aap 5.4K 11월  9 16:15 secretsdata.json
+-rw-r--r--. 1 aap aap    0 11월  9 16:06 secretsdata.lock
+
+[aap@aap-c ~]$ 
+```
+
+#### 8.1.2 시크릿 JSON 파일 콘텐츠
+
+실행 명령어
+```bash
+jq '.' ~/.local/share/containers/storage/secrets/filedriver/secretsdata.json
+```
+
+실행 결과 - JSON 파일
+```json
+{
+  "17b372f77dda7b0adaad945be": "cmVkaGF08320823...<snip>...2cxidshdsl",
+  "1b08fa1ae7ae089373ccf6f11": "b1NtM3lfd1NoMkd...<snip>...RlQ0ZXQT0=",
+  // ...<snip>...
+  "fbc41abc051aea3d00d388e50": "ZG5WWmhtUzl3ekx...<snip>...1rR3RtSHc=",
+  "fbce1386f9a541efa208affee": "REFUQUJBU0VTID0...<snip>...ogICB9Cn0K"
+}
+```
+<br>
+
+### 8.2 포드맨 시크릿 데이터
+
+#### 8.2.1 포드맨 시크릿 확인
+
+실행 명령어
+```
+podman secret list
+```
+
+실행 결과 - JSON
+```
+[aap@aap-c ~]$ podman secret list
+ID                         NAME                        DRIVER      CREATED       UPDATED
+443c0dab56abc08080370adf7  hub_resource_server         file        22 hours ago  22 hours ago
+bd9811c86888dfafbe675fc01  gateway_secret_key          file        23 hours ago  23 hours ago
+30b8a46afee21cfea5bc19284  eda_admin_password          file        22 hours ago  22 hours ago
+1b08fa1ae7ae089373ccf6f11  hub_database_fields         file        22 hours ago  22 hours ago
+765085e3cb9e4b6286b941f4a  controller_secret_key       file        22 hours ago  22 hours ago
+8594621dadb1a5db7da9e6f22  eda_db_password             file        22 hours ago  22 hours ago
+acca684078a4c40475419b635  gateway_redis_url           file        23 hours ago  23 hours ago
+f5a1f84866361933d4a72ad7f  hub_secret_key              file        22 hours ago  22 hours ago
+fbc41abc051aea3d00d388e50  eda_resource_server         file        22 hours ago  22 hours ago
+fbce1386f9a541efa208affee  controller_postgres         file        22 hours ago  22 hours ago
+9cb0dfcddc1d04e1abdf77d24  gateway_db_password         file        23 hours ago  23 hours ago
+a62e3d951ec274c2615a5d79d  controller_resource_server  file        22 hours ago  22 hours ago
+e1ca43559ac6144ca4c1fad7c  postgresql_admin_password   file        23 hours ago  23 hours ago
+c901138e9b73ea7db7c6ada2d  hub_settings                file        22 hours ago  22 hours ago
+d71b3e4e53324e8f4eaf913cb  eda_secret_key              file        22 hours ago  22 hours ago
+17b372f77dda7b0adaad945be  gateway_admin_password      file        23 hours ago  23 hours ago
+2a8fa2872525b1109d35e2c2a  controller_channels         file        22 hours ago  22 hours ago
+
+[aap@aap-c ~]$ 
+```
+
+#### 8.2.2 시크릿 내용 확인
+
+실행 명령어
+```
+podman secret inspect --showsecret eda_admin_password | jq '.'
+```
+
+실행 결과 - JSON
+```json
+[
+  {
+    "ID": "30b8a46afee21cfea5bc19284",
+    "CreatedAt": "2025-11-09T16:13:46.030762313+09:00",
+    "UpdatedAt": "2025-11-09T16:13:46.030762313+09:00",
+    "Spec": {
+      "Name": "eda_admin_password",
+      "Driver": {
+        "Name": "file",
+        "Options": {
+          "path": "/home/aap/.local/share/containers/storage/secrets/filedriver"
+        }
+      },
+      "Labels": {}
+    },
+    "SecretData": "redhat"
+  }
+]
+```
+
 <br>
 <br>
 
