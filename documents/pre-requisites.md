@@ -153,6 +153,46 @@ tmpfs                  366M   36K  366M   1% /run/user/0
 
 [root@aap-c ~]# 
 ```
+
+### 2.4 DNS 정보
+
+#### 2.4.1 기본 이름 풀이 확인
+
+실행 명령어
+```bash
+ping -c 1 aap-c.thinkmore.net
+```
+
+실행 결과
+```
+[root@aap-c ~]# ping -c 1 aap-c.thinkmore.net
+PING aap-c.thinkmore.net (192.168.0.43) 56(84) bytes of data.
+64 bytes from aap-c.thinkmore.net (192.168.0.43): icmp_seq=1 ttl=64 time=0.038 ms
+
+--- aap-c.thinkmore.net ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.038/0.038/0.038/0.000 ms
+
+[root@aap-c ~]# 
+```
+
+#### 2.4.2 DNS 레코드 확인
+
+실행 명려어
+```bash
+dig aap-c.thinkmore.net +noall +answer @192.168.0.3
+```
+* 대상 노드* *aap-c.thinkmore.net*
+* DNS 노드: *@192.168.0.3*
+* 응답만 표시: *+noall +answer*
+
+실행 결과
+```
+[root@aap-c tasks]# dig aap-c.thinkmore.net +noall +answer @192.168.0.3
+aap-c.thinkmore.net.    604800  IN      A       192.168.0.43
+
+[root@aap-c tasks]# 
+```
 <br>
 <br>
 
@@ -203,6 +243,8 @@ Release not set
 9.2
 9.3
 9.4
+9.5
+9.6
 
 [root@aap-c ~]# subscription-manager release --set 9.6
 Release set to: 9.6
@@ -269,6 +311,41 @@ systemctl reboot
 ...<snip>...
 
 ```
+<br>
+<br>
+
+## 4. 레지스트리 설정
+
+### 4.1 레지스트리 로그인 정보 준비
+
+#### 4.1.1 다음 URL로 이동
+
+```
+https://access.redhat.com/terms-based-registry/accounts
+```
+
+#### 4.1.2 레지스트리 서비스 계정 페이지에서 새 서비스 계정을 클릭
+
+* 허용된 문자만 사용하여 계정 이름을 입력
+  + 필요한 경우 계정에 대한 설명을 입력
+  + 생성을 클릭
+
+#### 4.1.3 검색 필드에서 이름을 검색하여 목록에서 생성된 계정 확인
+
+* 생성한 계정의 이름을 클릭
+* 또는 토큰 이름을 알고 있는 경우 URL을 입력하여 페이지로 직접 이동
+  ```
+  https://access.redhat.com/terms-based-registry/token/<name-of-your-token>
+  ```
+<br>
+
+### 4.2 사용자 이름과 암호를 변수에 저장
+
+#### 4.2.1 생성된 사용자 이름(계정 이름)과 토큰을 표시하는 토큰 페이지 확인
+
+* 사용자 이름과 변수를 저장
+  + 사용자 이름 (예: "1234567|shadow")을 *registry_username*으로 설정
+  + 사용자 암호로써 토큰을 복사하여 *registry_password*로 설정
 <br>
 <br>
 
