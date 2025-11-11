@@ -13,7 +13,29 @@ Ansible Automation Platform(이하 AAP) 설치를 위해 다음과 같은 최소
 |`디스크 IOPS`|3000|
 <br>
 
-### 1.2 운영체제 요구 사항
+### 1.2 구성 요소
+
+#### 1.2.1 요구 사항
+
+|구성요소|버전|
+|:---|:---|
+|AAP|2.6|
+|EE 앤서블 코어|2.16(기본)<br>2.18 (지원)<br>2.19(TP)|
+|오픈시프트 버전|4.14 ~ 4.20|
+|PostgreSQL 버전|15(기본)<br>16, 17(지원은 되는 백업 및 복구에 제한)|
+|RPM 설치 시 OS 버전|RHEL9|
+|컨테이너 설치 시 OS 버전|RHEL9, RHEL10|
+
+#### 1.2.2 EE 지원 플랫폼
+
+|EE|플랫폼|
+|:---|:---|
+|/ansible-automation-platform-26/ee-supported-rhel9|amd64, arm64, ppc64le, s390x|
+|/ansible-automation-platform-26/ee-minimal-rhel9|amd64, arm64, ppc64le, s390x|
+|/ansible-automation-platform-tech-preview/ee-minimal-rhel9|amd64, arm64, ppc64le, s390x|
+<br>
+
+### 1.3 운영체제 요구 사항
 
 * RHEL 9.2 이상
 * *root*가 아닌 앤서블 사용자
@@ -31,7 +53,7 @@ Ansible Automation Platform(이하 AAP) 설치를 위해 다음과 같은 최소
     ```
 <br>
 
-### 1.3 설치에 필요한 채널 및 패키지
+### 1.4 설치에 필요한 채널 및 패키지
 
 채널 리스트
 * rhel-9-for-x86_64-appstream-rpms
