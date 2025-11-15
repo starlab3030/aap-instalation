@@ -22,7 +22,7 @@ Ansible Automation Platform(이하 AAP) 설치를 위해 다음과 같은 최소
 |AAP|2.6|
 |EE 앤서블 코어|2.16(기본)<br>2.18 (지원)<br>2.19(TP)|
 |오픈시프트 버전|4.14 ~ 4.20|
-|PostgreSQL 버전|15(기본)<br>16, 17(지원은 되는 백업 및 복구에 제한)|
+|PostgreSQL 버전|15(기본)<br>16, 17(지원은 되나 백업 및 복구에 제한)|
 |RPM 설치 시 OS 버전|RHEL9|
 |컨테이너 설치 시 OS 버전|RHEL9, RHEL10|
 
